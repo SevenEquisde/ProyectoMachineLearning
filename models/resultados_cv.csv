@@ -1,0 +1,5 @@
+Modelo,CV_R2,CV_RMSE,CV_MAE,Mejores_Hiperparametros
+Lasso,0.6001,4452.85,2829.86,{'modelo__alpha': 25.0}
+Ridge,0.5985,4458.81,2833.02,{'modelo__alpha': 1.0}
+Regresion_Lineal,0.5957,4467.59,2835.65,{}
+Arbol_Decision,0.412,5311.58,3463.69,"{'modelo__max_depth': 10, 'modelo__min_samples_leaf': 8, 'modelo__min_samples_split': 2}"
