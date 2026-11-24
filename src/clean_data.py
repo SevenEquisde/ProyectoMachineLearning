@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 RUTA_RAW = "data/raw/dataset_autos_sv.csv"
-RUTA_PROCESSED = "data/processed/vehicles_clean.csv"
+RUTA_PROCESSED = "data/processed/dataset_limpio.csv"
 
 
 def limpiar_motor(valor):
@@ -95,9 +95,14 @@ def limpiar_datos(ruta_entrada=RUTA_RAW, ruta_salida=RUTA_PROCESSED):
     df["Motor"] = df["Motor"].fillna(df.groupby("Modelo")["Motor"].transform("median"))
     df["Motor"] = df["Motor"].fillna(df.groupby("Marca")["Motor"].transform("median"))
     df["Motor"] = df["Motor"].fillna(df["Motor"].median())
+    df["Motor"] = df["Motor"].round(1)
 
     # Guardar dataset limpio
     os.makedirs(os.path.dirname(ruta_salida), exist_ok=True)
+    df = df.drop_duplicates().copy()
+    # Eliminar los 2 registros atípicos acordados por el equipo
+    df = df[~((df["Modelo"] == "Hilux") & (df["Año"] == 2015) & (df["Precio"] == 5000))].copy()
+    df = df[~((df["Modelo"] == "Accent") & (df["Año"] == 2001) & (df["Kilometraje"] == 1462))].copy()
     df.to_csv(ruta_salida, index=False, encoding="utf-8")
 
     print(f"Limpieza completada: {filas_iniciales} -> {len(df)} filas guardadas en {ruta_salida}")
